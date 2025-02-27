@@ -12,13 +12,15 @@ class MyWidget(QMainWindow):
         super().__init__()
         uic.loadUi('map.ui', self)
         self.scale = 0.005
+        self.cords_x = 37.299989
+        self.cords_y = 55.481457
         img = self.get_map_image()
         self.map.setPixmap(img)
         self.scale = 0.005
 
     def get_map_image(self, **params):
         map_params = {
-            "ll": params.get("ll", "37.300611,55.483988"),
+            "ll": params.get("ll", f'{self.cords_y},{self.cords_x}'),
             "spn": params.get("spn", f"{self.scale},{self.scale}"),
             "apikey": "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13",
         }
@@ -35,6 +37,19 @@ class MyWidget(QMainWindow):
         elif event.key() == Qt.Key.Key_PageDown:
             self.scale /= 2
             self.map.setPixmap(self.get_map_image())
+        elif event.key() == Qt.Key.Key_Up:
+            self.cords_x += 0.001
+            self.map.setPixmap(self.get_map_image())
+        elif event.key() == Qt.Key.Key_Down:
+            self.cords_x -= 0.001
+            self.map.setPixmap(self.get_map_image())
+        elif event.key() == Qt.Key.Key_Right:
+            self.cords_y += 0.001
+            self.map.setPixmap(self.get_map_image())
+        elif event.key() == Qt.Key.Key_Left:
+            self.cords_y -= 0.001
+            self.map.setPixmap(self.get_map_image())
+
 
 def except_hook(cls, exception, traceback):
     sys.__excepthook__(cls, exception, traceback)

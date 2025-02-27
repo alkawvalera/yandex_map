@@ -1,23 +1,25 @@
 import sys
 
 import requests
-from PyQt6 import uic  # Импортируем uic
-from PyQt6.QtGui import QPixmap, QImage
+from PyQt6 import uic
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
 
 class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('map.ui', self)  # Загружаем дизайн
-        # Обратите внимание: имя элемента такое же как в QTDesigner
+        uic.loadUi('map.ui', self)
+        self.scale = 0.005
         img = self.get_map_image()
         self.map.setPixmap(img)
+        self.scale = 0.005
 
     def get_map_image(self, **params):
         map_params = {
             "ll": params.get("ll", "37.300611,55.483988"),
-            "spn": params.get("spn", "0.005,0.005"),
+            "spn": params.get("spn", f"{self.scale},{self.scale}"),
             "apikey": "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13",
         }
         map_api_server = "https://static-maps.yandex.ru/v1"
@@ -25,6 +27,17 @@ class MyWidget(QMainWindow):
         pixmap = QPixmap()
         pixmap.loadFromData(response.content)
         return pixmap
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Up:
+            self.scale *= 2
+            self.map.setPixmap(self.get_map_image())
+        elif event.key() == Qt.Key.Key_Down:
+            self.scale /= 2
+            self.map.setPixmap(self.get_map_image())
+
+def except_hook(cls, exception, traceback):
+    sys.__excepthook__(cls, exception, traceback)
 
 
 if __name__ == '__main__':

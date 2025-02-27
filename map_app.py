@@ -29,10 +29,10 @@ class MyWidget(QMainWindow):
         return pixmap
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key.Key_Up:
+        if event.key() == Qt.Key.Key_PageUp:
             self.scale *= 2
             self.map.setPixmap(self.get_map_image())
-        elif event.key() == Qt.Key.Key_Down:
+        elif event.key() == Qt.Key.Key_PageDown:
             self.scale /= 2
             self.map.setPixmap(self.get_map_image())
 

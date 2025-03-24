@@ -38,16 +38,16 @@ class MyWidget(QMainWindow):
             self.scale /= 2
             self.map.setPixmap(self.get_map_image())
         elif event.key() == Qt.Key.Key_Up:
-            self.cords_x += 0.001
+            self.cords_x += self.scale / 2
             self.map.setPixmap(self.get_map_image())
         elif event.key() == Qt.Key.Key_Down:
-            self.cords_x -= 0.001
+            self.cords_x -= self.scale / 2
             self.map.setPixmap(self.get_map_image())
         elif event.key() == Qt.Key.Key_Right:
-            self.cords_y += 0.001
+            self.cords_y += self.scale / 2
             self.map.setPixmap(self.get_map_image())
         elif event.key() == Qt.Key.Key_Left:
-            self.cords_y -= 0.001
+            self.cords_y -= self.scale / 2
             self.map.setPixmap(self.get_map_image())
 
 
